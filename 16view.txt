@@ -1,0 +1,72 @@
+<%-- 
+    Document   : viewdep
+    Created on : Jun 19, 2018, 8:47:10 AM
+    Author     : sam
+--%>
+
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.Statement"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Comments</title>
+        <link href="csspage.css" rel="StyleSheet" type="text/css">
+    </head>
+    <body>
+    <%
+        Connection obj1=DriverManager.getConnection("jdbc:mysql://localhost:3306/bugtracker?zeroDateTimeBehavior=convertToNull","root","");
+        Statement obj2=obj1.createStatement();
+        String q="SELECT * FROM comments WHERE rby="+request.getParameter("id")+" AND active='y'";
+        ResultSet obj3=obj2.executeQuery(q);
+        
+//        Statement obj4=obj1.createStatement();
+ //       String q2="SELECT * FROM bugs WHERE bugid="+request.getParameter("id");
+  //      ResultSet obj5=obj4.executeQuery(q2);
+        
+        
+        
+        //int i=1;
+      //  while(obj5.next())
+    //    {
+    %>
+        <h3 align="center">Comments : </h3>
+    <br>
+    <br>
+    <table class="table2">
+        <tr>
+            <td> Sr. no </td>
+            <td> Comment : </td>
+            <td> Bug: </td>
+        </tr>
+        <tr><td><br></td></tr>
+        <%int i=1;
+        while(obj3.next())
+        {
+        %>
+        <tr>
+            <td><%=i%></td>
+            <td><%=obj3.getString("comment")%></td>
+            
+        <%
+        i+=1;
+        
+        Statement obj6=obj1.createStatement();
+        String q3="SELECT * FROM bugs WHERE bugid="+obj3.getString("bugid");
+        ResultSet obj7=obj6.executeQuery(q3);
+        while(obj7.next()){
+        %>
+        <td><%=obj7.getString("bug")%></td>
+        <td><a href="editcomment.jsp?id=<%=obj3.getString("commentid")%>"> Edit</a></td>
+        </tr>
+        <%}}%>
+        <tr>
+            <td><a href="emphome.jsp">Back</a></td>
+        </tr>
+    </table>
+         
+    </body>
+</html>

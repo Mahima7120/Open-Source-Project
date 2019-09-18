@@ -1,0 +1,63 @@
+<%-- 
+    Document   : adminhome
+    Created on : Jun 19, 2018, 8:33:51 AM
+    Author     : sam
+--%>
+
+<%@page import="java.sql.Statement"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Admin home</title>
+        <link href="csspage.css" rel="StyleSheet" type="text/css">
+        <script type="text/javascript">
+        /*function noBack() {
+            window.history.forward()
+        }
+        noBack();
+        window.onload = noBack;
+        window.onpageshow = function (evt) { if (evt.persisted) noBack(); }
+        window.onunload = function () { void (0); }
+*/
+        </script>
+    </head>
+    <body>
+        <%
+            if(session.getAttribute("admin")==null)
+            {
+                response.sendRedirect("adminlogin.jsp");
+            }
+            
+        %>
+        <h1 align="center">Admin home</h1>
+        <table class="table2">
+            <tr>
+                <td>
+                    <table class="table1">
+                        <tr>
+                            <td><a href="manageemployees.jsp">Manage employees</a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="department.jsp">Manage departments</a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="project.jsp">Manage projects</a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="techsupport.jsp">Tech support</a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="empprog.jsp">View employee progress</a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="logout2.jsp">Log out</a></td>
+                        </tr>
+                    </table>
+                </td>
+                <td> Admin : <%=session.getAttribute("admin")%></td>
+            </tr>
+        </table>
+    </body>
+</html>

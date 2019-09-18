@@ -1,0 +1,74 @@
+<html>
+    <head>
+        <title>edit project</title>
+    <?php    
+	//<link href="csspage.css" rel="StyleSheet" type="text/css">
+    ?>
+</head>
+    <body>
+           <form action="editproINS.jsp" method="post">
+        <?php
+		$con=mysqli_connect('localhost','root','aressam1999');
+		mysqli_select_db($con,"bugtracker");
+		$id=$_POST['id'];	//check name from previous page
+            	$q="SELECT * FROM project WHERE pid='".$id."'";
+            	$result=mysqli_query($con,$q);
+            while($row=mysqli_fetch_array($result))
+            {
+        ?>
+        <h1 align="center">Edit project</h1>
+            <table>
+            <tr>
+                <td>Project name</td>
+                <td><input type="text" name=proname value="<?=$row['proname']?>"></td>
+            </tr>
+            <tr>
+                <td>Project description</td>
+                <td><textarea name=prodes><?=$row['prodes']?></textarea></td>
+            </tr>
+            <tr>
+                    <td>Client name : </td>
+                    <td><input type="text" name=cname value="<?=$row['cname']?>"></td>
+                </tr>
+                <tr>
+                    <td>Client contact number</td>
+                    <td><input type="text" name=ccont value="<?=$row['ccont']?>"></td>
+                </tr>
+            <tr>
+                <td>
+                    Lead by:
+                </td>
+                
+                <td><select name=lead>
+                        <?php
+                            $q2="SELECT * FROM empreg";
+                            $result2=mysqli_query($con,$q2);
+                            while($row2=mysqli_fetch_array($result2))
+                            {
+                                if($row2['eid'] contains $row2['lead']) //check contains statement
+                                {
+                        ?>
+                        <option value=<?=$row2['eid']?> selected><?=$row2['name']?></option>
+                        
+                        <?php
+                            }
+                            else
+                            {
+                        ?>
+                        <option value=<?=$row2['eid']?>><?=$row2['name']?></option>
+                        <?php
+                            }}
+                        ?>
+                    </select></td>
+            </tr>
+            <tr>
+                <td>Submit</td>
+                <td><input type="hidden" Value="<?=$row['pid']?>" name=hid><input type="submit"></td>
+            </tr>
+            
+        </table>
+            <?php}?>
+        </form>
+        <a href="viewproject.jsp">Back</a>
+    </body>
+</html>

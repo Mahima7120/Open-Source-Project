@@ -1,0 +1,120 @@
+<%-- 
+    Document   : reportbug
+    Created on : Jun 21, 2018, 11:55:16 AM
+    Author     : sam
+--%>
+
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.Connection"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Report a bug</title>
+        
+        <script src="validation.js" type="text/javascript" language="javascript"></script>
+        <script language="javascript">
+            function valid()
+            {
+                    if(isselect(document.f1.project,"please select a project")){
+                    if(isempty(document.f1.bug,"please enter the bug title")){
+                    if(isempty(document.f1.bugdes,"please select a bug description")){
+                    if(isselect(document.f1.assign,"please assign the bug to an employee")){
+                    return true;
+                    }}}}
+                    return false;
+            }
+        </script>
+        <link href="csspage.css" rel="StyleSheet" type="text/css">
+    </head>
+    <body>
+        <%
+            Connection obj1=DriverManager.getConnection("jdbc:mysql://localhost:3306/bugtracker?zeroDateTimeBehavior=convertToNull","root","");
+            Statement obj2=obj1.createStatement();
+            String q="SELECT * FROM project WHERE status='y'";
+            ResultSet obj3=obj2.executeQuery(q);
+            
+            Statement obj4=obj1.createStatement();
+            String q2="SELECT * FROM empreg";
+            ResultSet obj5=obj4.executeQuery(q2);
+            
+            Statement obj6=obj1.createStatement();
+            String q3="SELECT * FROM empreg";
+            ResultSet obj7=obj6.executeQuery(q3);
+        %>
+        <h1 align="center">Report a bug:</h1>
+        <form name=f1 onsubmit="return valid()" action="reportbugINS.jsp" method="post">
+            <table class="table2">
+                <tr>
+                    <td>Project : </td>
+                    <td>
+                        <select name=project>
+                            <option value="sel">sel</option>
+                            <%while(obj3.next())
+                            {
+                            %>
+                            <option value="<%=obj3.getString("pid")%>"><%=obj3.getString("proname")%></option>
+                            <%
+                            }
+                            %>
+                        </select>
+                    </td>
+                </tr>
+                <tr><td><br></td>
+                    <td><br></td>
+                </tr>
+                <tr>
+                    <td>Bug name</td>
+                    <td><input type="text" name=bug></td>
+                </tr>
+                <tr><td><br></td>
+                    <td><br></td>
+                </tr>
+                <tr>
+                    <td>Bug description</td>
+                    <td><textarea name=bugdes></textarea></td>
+                </tr>
+                <tr><td><br></td>
+                    <td><br></td>
+                </tr>
+                <tr>
+                    <td>Assign bug to : </td>
+                    <td>
+                        <select name=assign>
+                            <option value="sel">sel</option>
+                            <%while(obj5.next())
+                            {
+                            %>
+                            <option value="<%=obj5.getString("eid")%>"><%=obj5.getString("name")%></option>
+                            <%
+                            }
+                            %>
+                        </select>
+                    </td>
+                </tr>
+                <tr><td><br></td>
+                    <td><br></td>
+                </tr>
+                
+                <tr>
+                    <td>Priority:</td>
+                    <td>
+                        <input type="radio" name=status value="H" checked>High<br>
+                        <input type="radio" name=status value="M">Medium<br>
+                        <input type="radio" name=status value="L">Low
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="hidden" value="<%=session.getAttribute("user")%>" name=hid><input type="submit" value="Report"></td>
+                </tr>
+                <tr>
+                    <td><a href="emphome.jsp">Back</a></td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>

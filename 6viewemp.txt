@@ -1,0 +1,80 @@
+<%-- 
+    Document   : viewdep
+    Created on : Jun 19, 2018, 8:47:10 AM
+    Author     : sam
+--%>
+
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.Statement"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Projects</title>
+        <link href="csspage.css" rel="StyleSheet" type="text/css">
+    </head>
+    <body>
+        <h1 align="center">Commissioned employees : </h1>
+    <%
+        Connection obj1=DriverManager.getConnection("jdbc:mysql://localhost:3306/bugtracker?zeroDateTimeBehavior=convertToNull","root","");
+        Statement obj2=obj1.createStatement();
+        String q="SELECT * FROM empreg,department WHERE department.depid=empreg.department AND empreg.status='y'";
+        ResultSet obj3=obj2.executeQuery(q);
+        
+        //Statement obj4=obj1.createStatement();
+        //String q2="SELECT department.depname FROM empreg,department WHERE department.depid=empreg.department";
+        //ResultSet obj5=obj4.executeQuery(q2);
+    %>
+    <table class="table2">
+        <tr>
+            <td>Name</td>
+            <td><br></td>
+            <td>Gender</td>
+            <td><br></td>
+            <td>Date of birth</td>
+           <td><br></td>
+            <td>Department assigned to</td>
+            <td><br></td>
+            <td>Mail id</td>
+            <td><br></td>
+            <td>Mobile</td>
+            <td><br></td>
+            <td>Status</td>
+            <td><br></td>
+            
+        </tr>
+        <%
+            while(obj3.next())
+            {
+        %>
+        <tr>
+            <td><%=obj3.getString("name")%></td>
+            <td><br></td>
+            <td><%=obj3.getString("gen")%></td>
+            <td><br></td>
+            <td><%=obj3.getString("dob")%></td>
+            <td><br></td>
+            <td><%=obj3.getString("depname")%></td>
+            <td><br></td>
+            <td><%=obj3.getString("email")%></td>
+            <td><br></td>
+            <td><%=obj3.getString("mobile")%></td>
+            <td><br></td>
+            <td><%=obj3.getString("status")%></td>
+            <td><br></td>
+            <td><a href="editemp.jsp?id2=<%=obj3.getString("eid")%>">Edit</a></td>
+            <td><br></td>
+            <td><a href="mark2emp.jsp?id=<%=obj3.getString("eid")%>">de-commission</a></td>
+        </tr>
+        <%
+            }
+        %>
+        <tr>
+            <td><a href="manageemployees.jsp">Back</a></td>
+        </tr>
+    </table>
+    </body>
+</html>

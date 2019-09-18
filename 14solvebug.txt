@@ -1,0 +1,50 @@
+<%-- 
+    Document   : solvebug
+    Created on : Jun 30, 2018, 9:23:45 AM
+    Author     : sam
+--%>
+
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.Connection"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Solve the bug</title>
+        <link href="csspage.css" rel="StyleSheet" type="text/css">
+    </head>
+    <body>
+        <%
+            Connection obj1=DriverManager.getConnection("jdbc:mysql://localhost:3306/bugtracker?zeroDateTimeBehavior=convertToNull","root","");
+            Statement obj2=obj1.createStatement();
+            String q="SELECT * FROM bugs WHERE bugid='"+request.getParameter("id")+"'";
+            ResultSet obj3=obj2.executeQuery(q);
+            while(obj3.next())
+            {
+        %>
+        <h1 align="center">Bug name :  </h1><h3 align="center"><%=obj3.getString("bug")%></h3>
+    
+    <form action="solvebugINS.jsp" method="post">
+        <table class="table2">
+            <tr>
+                <td>Comment :</td>
+                <td><textarea name="comment"></textarea></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="hidden" value="<%=obj3.getString("assign")%>" name=rby>
+                    <input type="hidden" value="<%=obj3.getString("bugid")%>" name=bugid><input type="submit" value="Submit"></td>
+            </tr><tr><td><a href="emphome.jsp">Home</a></td>
+            </tr>
+        </table>
+    </form>
+        <%
+            }
+        %>
+        <br>
+        
+    </body>
+</html>

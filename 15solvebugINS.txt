@@ -1,0 +1,35 @@
+<%-- 
+    Document   : solvebugINS
+    Created on : Jul 1, 2018, 11:23:16 AM
+    Author     : sam
+--%>
+
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.Statement"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        <%
+            String comment=request.getParameter("comment");
+            String rby=request.getParameter("rby");
+            Connection obj1=DriverManager.getConnection("jdbc:mysql://localhost:3306/bugtracker?zeroDateTimeBehavior=convertToNull","root","");
+            Statement obj2=obj1.createStatement();
+            String q="INSERT INTO comments(commentid,bugid,comment,rby,active) VALUE(0,'"+request.getParameter("bugid")+"','"+comment+"','"+rby+"','y')";
+            obj2.executeUpdate(q);
+            
+            Statement obj4=obj1.createStatement();
+            String q2="SELECT * FROM bugs WHERE bugid='"+request.getParameter("bugid")+"'";
+            ResultSet obj5=obj4.executeQuery(q2);
+            if(obj5.next()){
+            response.sendRedirect("mybugs.jsp?id="+rby);
+            }    
+        %>
+    </body>
+</html>

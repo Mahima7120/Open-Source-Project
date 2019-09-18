@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <title>Projects</title>
+	<?php
+        	//<link href="csspage.css" rel="StyleSheet" type="text/css">
+	?>
+    </head>
+    <body>
+        <h1 align="center">Projects : </h1>
+    <?php
+	$con=mysqli_connect('localhost','root','aressam1999');
+	mysqli_select_db($con,"bugtracker");
+
+
+        //Connection obj1=DriverManager.getConnection("jdbc:mysql://localhost:3306/bugtracker?zeroDateTimeBehavior=convertToNull","root","");
+        //Statement obj2=obj1.createStatement();
+        $q="SELECT * FROM project WHERE status='y'";
+        //ResultSet obj3=obj2.executeQuery(q);
+	$result=mysqli_query($con,$q);
+    ?>
+    <table>
+        <?php
+        while($row=mysqli_fetch_array($result))
+        {
+        ?>
+        <tr>
+            <td><?=$row['proname']?></td>
+            <td><a href="editpro.jsp?id=<?=$row['pid']?>">Edit</a></td>
+            <td><a href="markprojects.jsp?id2=<?=row['pid']?>">Mark as done</a></td>
+        </tr>
+        <?php
+        }
+        ?>
+        <tr>
+            <td><a href="project.jsp">Back</a></td>
+        </tr>
+    </table>
+    </body>
+</html>

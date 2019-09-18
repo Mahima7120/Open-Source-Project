@@ -1,0 +1,32 @@
+<%-- 
+    Document   : manageemployees
+    Created on : Jun 19, 2018, 10:53:26 AM
+    Author     : sam
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Manage Employees</title>
+        <link href="csspage.css" rel="StyleSheet" type="text/css">
+    </head>
+    <body>
+        <h1 align="center">Manage employees</h1>
+        <table class="table2">
+            <tr>
+                <td><a href="empreg.jsp">Enroll new employee</a></td>
+            </tr>
+            <tr>
+                <td><a href="viewemp.jsp">View commissioned employees</a></td>
+            </tr>
+            <tr>
+                <td><a href="viewemp2.jsp">View de-commissioned employees</a></td>
+            </tr>
+            <tr>
+                <td><a href="adminhome.jsp">Back</a></td>
+            </tr>
+        </table>
+    </body>
+</html>

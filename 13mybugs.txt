@@ -1,0 +1,53 @@
+<%-- 
+    Document   : ownbug
+    Created on : Jun 27, 2018, 11:09:18 PM
+    Author     : sam
+--%>
+
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.Connection"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Bugs i reported</title>
+        <link href="csspage.css" rel="StyleSheet" type="text/css">
+    </head>
+    <body>
+        <%
+            Connection obj1=DriverManager.getConnection("jdbc:mysql://localhost:3306/bugtracker?zeroDateTimeBehavior=convertToNull","root","");
+            Statement obj2=obj1.createStatement();
+            String q="SELECT * FROM bugs WHERE assign='"+request.getParameter("id")+"'";
+            ResultSet obj3=obj2.executeQuery(q);
+        
+        %>
+        <h1 align="center">Bugs that were reported to you</h1>
+        <table class="table2">
+            <tr>
+                <td>Bug title</td>
+                <td>Bug description</td>
+                <td>Solve</td>
+            </tr>
+            <tr><td><br></td></tr>
+            <%
+            while(obj3.next())
+            {    
+            %>
+            <tr>
+                <td><%=obj3.getString("bug")%></td>
+                <td><%=obj3.getString("bugdes")%></td>
+                <td><a href="solvebug.jsp?id=<%=obj3.getString("bugid")%>,id2=<%=obj3.getString("assign")%>">Solve</a></td>
+                
+            </tr>
+            <%
+                        }
+            %>
+            <tr>
+                <td><a href="emphome.jsp">Back</a></td>
+            </tr>
+        </table>
+    </body>
+</html>
